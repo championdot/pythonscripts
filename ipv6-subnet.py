@@ -1,7 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: UTF-8 -*-
 
+'''
+功能：划分IPV6子网
+Usage:$0  2001:dc7:1000::1/122 126 
+''' 
 import sys
+import re
 
 base = [str(x) for x in range(10)] + [ chr(x) for x in range(ord('A'),ord('A')+6)]
 # base = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, A, B, C, D, E, F]
@@ -51,7 +56,6 @@ def Nzero(n):
     #print d  #:0000:0000:0000:0000: 
     return d  #:0000:0000:0000:0000: 
 
-
 #def IP6AddrToBin(ip6addr):
 
 def splitAllbinStr(binstr,submask,bigmask):                                                      
@@ -63,8 +67,8 @@ def splitAllbinStr(binstr,submask,bigmask):
     SubNetCount=2**int(dynbitNum)  # 2** 6 获取子网个数
     #print SubNetCount,dynbitNum
 
-    mindata=int(dynbitNum)*'0' # 000000 变化位的起始地址
-    maxdata=int(dynbitNum)*'1' # 111111 变化位的最后地址
+    mindata=int(dynbitNum)*'0'  # 000000 变化位的起始地址
+    maxdata=int(dynbitNum)*'1'  # 111111 变化位的最后地址
 
     #startaddr  #每个子网的可用地址数，以及大网段里最小地址和最大地址
     #maxaddr
@@ -78,8 +82,9 @@ def splitAllbinStr(binstr,submask,bigmask):
     for i in range(int(SubNetCount)): #这里巧妙的用了子网个数来作为循环次数，而不是从开始值自增
         dynstr = str(dec2bin(i)).zfill(dynbitNum)
         allstr = prestr + dynstr + endstr
-        bindata=bin2hex(allstr) 
-        print bindata +'/' + str(submask)
+        alldata=bin2hex(allstr)  #这个返回是没有冒号分割的字符串
+        bindata=':'.join(re.findall(r'.{4}',alldata)) #每隔4个字符用冒号分割的字符串
+        print bindata+'/' + str(submask)
         subnetlist.append(bindata + '/' + str(submask))
     return SubNetCount,EnableAddrCount
 
@@ -116,7 +121,7 @@ if __name__ == '__main__':
     ZeroNum = int(8) - int(IP6BigAddr.count(':'))
     MergeZero =  Nzero(ZeroNum)    
     AllStr = IP6BigAddr.replace("::",MergeZero)
-    #print AllStr
+    print AllStr #2001:dc7:1000:0000:0000:0000:0000:1
    
     g=[]
     for i in AllStr.split(':'):
@@ -125,7 +130,8 @@ if __name__ == '__main__':
         g.append(''.join(f))
 
     hexjoinstr = ''.join(g)
-    print hexjoinstr #20010dc7100000000000000000000000
+    #print hexjoinstr #20010dc7100000000000000000000000
+    print re.findall(r'.{4}',hexjoinstr)  #['2001', '0dc7', '1000', '0000', '0000', '0000', '0000', '0001']
 
     AllbinStr =''
     for i in hexjoinstr:
@@ -133,7 +139,10 @@ if __name__ == '__main__':
         decstr = hex2dec(c) #十六进制转十进制
         #bin(int(decstr))[2:]).zfill(4) #利用系统自带的bin函数将十进制转换为二进制，并且去掉前面的0b字符串，同时补全4位
         binstr = (bin(int(decstr))[2:]).zfill(4)
+        #netregx=re.findall(r'.{4}',binstr)
+        #print netregx
         AllbinStr += binstr
+        #AllbinStr += netregx
     #print AllbinStr
     #00100000000000010000110111000111000100000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
     subcount,enableaddr=splitAllbinStr(AllbinStr,IP6Subsuffix,IP6Bigsuffix)
