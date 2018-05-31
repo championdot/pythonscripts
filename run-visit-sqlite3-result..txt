@@ -1,0 +1,19 @@
+$ C:/Python27/python.exe e:/personal-study/pyt
+hon/pythonscripts/visit_sqlite3.py
+2017-09-14 1 baidu.com
+2017-09-14 2 qq.com
+2017-09-14 3 taobao.com
+2017-09-14 4 tmall.com
+2017-09-14 5 sohu.com
+2017-09-14 6 sina.com.cn
+2017-09-14 7 jd.com
+2017-09-14 8 weibo.com
+2017-09-14 9 360.cn
+2017-09-14 10 google.com
+2017-09-14 11 list.tmall.com
+2017-09-14 12 youtube.com
+2017-09-14 13 google.com.hk
+2017-09-14 14 alipay.com
+2017-09-14 15 youth.cn
+2017-09-14 16 csdn.net
+2017-09-14 17 hao123.com
