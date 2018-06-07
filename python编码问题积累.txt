@@ -1,0 +1,9 @@
+1、在python脚本中print可以正常打印出来，而当pyinstall打包成可执行文件时发现会报错
+    #Python2.7的UnicodeEncodeError: ‘ascii’ codec can’t encode
+    #Unicode编码与ASCII编码的不兼容，其实这个Python脚本文件是由utf-8编码的
+    #用以下方法可以查看编码
+    # import chardet;chardet.detect(str)
+    #用以下方法可以解决编码
+    #import sys;reload(sys);sys.setdefaultencoding('utf-8')
+2、在AnyToIdn脚本中，print打印出来是中文，可以append到列表里就是unicode
+    #str.decode('unicode_escape').encode("UTF-8")
