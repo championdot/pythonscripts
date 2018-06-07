@@ -34,6 +34,7 @@ def TextToIdna(yourfile):
         
 if __name__ == '__main__':
     '''
+     读取一个文件文件，每一行文本的内容是一个域名，而且域名当中会在不定的位置出现punycode，因此需要将凡是出现punycode都转换成中文
      The Script be used from file each line to ZW,when each line contains puny code anyway,It can be normal runing....................
     '''
     yourfile=sys.argv[1]
