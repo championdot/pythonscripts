@@ -32,7 +32,7 @@ def GetHtmlTab(url):
                 ui.append(td.string)
             ulist.append(ui)
     #print ('**********************************')
-    print ulist #要是这样的话，name 和file 因为有超链接，因此爬到的这两个字段为空
+    print ulist[:10] #要是这样的话，name 和file 因为有超链接，因此爬到的这两个字段为空
     return ulist
 
 #保存资源
@@ -44,4 +44,4 @@ def save_contents(urllist):
 if __name__ == '__main__':
     url='https://www.rfc-editor.org/search/rfc_search_detail.php?sortkey=Number&sorting=DESC&page=All&pubstatus%5B%5D=Standards%20Track&std_trk=Internet%20Standard'
     ulist=GetHtmlTab(url)
-    save_contents(ulist)
+    save_contents(ulist[:10])
