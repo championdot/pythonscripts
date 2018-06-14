@@ -17,12 +17,14 @@ def GetHtmlTab(url):
     dnsnav = bsObj.find('div', {"class": "col_10 shift_1 clearfix"})
     
     for m in srsnav:
-        print m
+       print m
+       print 'all srs data set'
     
     for l in dnsnav:
         if len(l) <>0 :
             continue;
-        #print l
+        print 'out dns data set'
+        print l
 
 
 if __name__ == '__main__':
