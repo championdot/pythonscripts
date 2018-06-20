@@ -27,9 +27,24 @@ def GetHtmlTab(url):
                 continue;
             f.write(str(l))
 
+def GetRootfile(url):
+    html = requests.get(url)
+    page = html.content.decode("utf-8")
+    bsObj = BeautifulSoup(page, 'lxml')
+    rootnav = bsObj.find('p')
+    with open ('rootfile','a+') as f:
+        for i in rootnav:
+            if 'RRSIG' in i or 'DNSKEY' in i or 'DS' in i or 'A' in i:
+                continue
+            else:
+                f.write(list(i))
+
+
 if __name__ == '__main__':
     '''every-get-com-count.py 
     from URL Get com and net TLD SRS and DNS data set
     '''
-    url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
-    GetHtmlTab(url)
+    #url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
+    url2 = 'https://www.internic.net/domain/root.zone'
+    #GetHtmlTab(url)
+    GetRootfile(url2)
