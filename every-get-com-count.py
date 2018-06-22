@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+#coding: utf8
+
+
 import sys
 import requests
 from bs4 import BeautifulSoup
@@ -32,17 +35,24 @@ def GetRootfile(url):
     page = html.content.decode("utf-8")
     bsObj = BeautifulSoup(page, 'lxml')
     rootnav = bsObj.find('p')
-    with open ('rootfile','a+') as f:
+    with open ('rootzone','a+') as f:
         for i in rootnav:
-            if 'RRSIG' in i or 'DNSKEY' in i or 'DS' in i or 'A' in i:
+            lit = i.split('\t')
+            if 'RRSIG' in lit or 'DNSKEY' in lit or 'DS' in lit or 'A' in lit or 'AAAA' in lit or 'NSEC' in lit:
                 continue
             else:
-                f.write(list(i))
-
+                f.write(lit)
+        for line in f.readlines():
+            print line
 
 if __name__ == '__main__':
     '''every-get-com-count.py 
     from URL Get com and net TLD SRS and DNS data set
+    #url1中可以在col_10 shift_1下
+    #包含一个div（col_6 shift_2 margin_bottom zone-counts stack_mobile）和
+    #<p>（clear） 
+    #其中div为注册的表格数据，<p>为解析数据
+    #输出文件可以月为单位输出到一个文件（注册和解析各一个文件）
     '''
     #url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
     url2 = 'https://www.internic.net/domain/root.zone'
