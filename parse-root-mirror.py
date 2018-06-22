@@ -59,12 +59,12 @@ def parX(allinfolist,X):
     
     for root in allinfolist:
         total = {}
-        contrylist =[]
+        Xlist =[]
         for infolist in root['info']:
             if X in infolist.keys():
-                contrylist.append(infolist[X])
+                Xlist.append(infolist[X])
         count_frq ={}
-        for item in contrylist:
+        for item in Xlist:
             if item in count_frq:
                 count_frq[item] += 1
             else:
@@ -74,9 +74,9 @@ def parX(allinfolist,X):
             cc.append(contrydata)
         total['filename']=root['filename']
         if X=='Sites':
-            total['nodesitecount']=sum(contrylist)
+            total['nodesitecount']=sum(Xlist)
         else:
-            total['contrylistcount']=count_frq
+            total['Xlistcount']=count_frq
         total['loccnt'] = sum(cc)
         print total
 
