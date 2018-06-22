@@ -43,31 +43,45 @@ def ParYaml(localdir,filelist):
     return allX 
    
 
-def parCountry(filedict):
-    contrylist =[]
-    n = []
-    for k,v in filedict.items():
-        m = {}
-        for l in v:
-            if 'Country' not in l.keys():
-                continue 
-            contrylist.append(l['Country'])
-            count_frq = {}
-            for item in contrylist:
-                if item in count_frq:
-                    count_frq[item] += 1
-                else:
-                    count_frq[item] =1
-                m['contry']=count_frq
-                m['loc']=len(contrylist)
-                m['root'] = k
-        #n.append(m)
-        print m
-    #print n
-    return  n 
+def parX(allinfolist,X):
+    '''
+    [
+        {
+            'filename':'a-root.yml',
+            'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+        },
+        {
+            'filename':'b-root.yml',
+            'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+        }
+        ]
+    '''
+    
+    for root in allinfolist:
+        total = {}
+        contrylist =[]
+        for infolist in root['info']:
+            if X in infolist.keys():
+                contrylist.append(infolist[X])
+        count_frq ={}
+        for item in contrylist:
+            if item in count_frq:
+                count_frq[item] += 1
+            else:
+                count_frq[item] =1
+        cc = []
+        for contrydata in count_frq.values():
+            cc.append(contrydata)
+        total['filename']=root['filename']
+        if X=='Sites':
+            total['nodesitecount']=sum(contrylist)
+        else:
+            total['contrylistcount']=count_frq
+        total['loccnt'] = sum(cc)
+        print total
 
 
-def overall(allX)
+#def overall(allX):
     '''
     所有yml文件整体结果进行分析
     ①：根镜像节点总数（会出现US USA，需要有一个国家代码表来转换）
@@ -87,8 +101,20 @@ if __name__ == '__main__':
     localdir = os.path.join(curdir,'rootfile2')
     #DownYaml(rootdict,localdir)
     filelist = os.listdir(localdir)
-    print filelist  #['a-root.yml','b-root.yml']
-    ParYaml(localdir,filelist)
+    #print filelist  #['a-root.yml','b-root.yml']
     #filepath='E:\\personal-study\\python\\pythonscripts\\rootfile\\m-root.yml'
     #filedict = ParYaml(filepath)
     #m=parCountry(filedict)
+
+    #正式执行
+    allinfolist=ParYaml(localdir,filelist)
+    #print allinfolist
+    parX(allinfolist,'Town')
+    print '#####'
+    parX(allinfolist,'Country')
+    print '#######'
+    parX(allinfolist,'Sites')
+    print '####'
+    parX(allinfolist,'Type')
+   
+    

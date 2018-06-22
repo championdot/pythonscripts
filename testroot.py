@@ -43,6 +43,7 @@ def Xinfo(allinfolist):
         else:
             contrylist.append(nodedict['Country'])
     print len(contrylist)
+    print contrylist
     count_frq ={}
     for item in contrylist:
         if item in count_frq:
@@ -51,11 +52,48 @@ def Xinfo(allinfolist):
             count_frq[item] =1
     #print len(contrylist)
     frq=sorted(count_frq.items(),key = lambda x:x[1],reverse = True)
+    print frq
     #for i in frq:
     #    print str(i).strip('(').strip(')')
     #return contrylist
 
+def parCountry(allinfolist):
+    contrylist =[]
+    n = []
+    '''
+    alllist=[
+        {
+            'filename':'a-root.yml',
+            'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+        },
+        {
+            'filename':'b-root.yml',
+            'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+        }
+        ]
+    '''
+    for root in alllist:
+        for infolist in root['info']:
+            for l in infolist:
+                if 'Country' not in l.keys():
+                    l['Country']=l['Town']
+                    contrylist.append(l['Country'])
+                    continue 
+                else:
+                    contrylist.append(l['Country'])
+    print len(contrylist)
+    print contrylist
+    count_frq ={}
+    for item in contrylist:
+        if item in count_frq:
+            count_frq[item] += 1
+        else:
+            count_frq[item] =1
+    #print len(contrylist)
+    frq=sorted(count_frq.items(),key = lambda x:x[1],reverse = True)
+    print frq
 
+    
 if __name__ == '__main__':
     curdir = os.path.split(os.path.realpath(__file__))[0]
     localdir = os.path.join(curdir,'rootfile2')

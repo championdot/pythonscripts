@@ -52,3 +52,27 @@ if __name__ == '__main__':
     url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
     GetHtmlTab(url)
     #GetRootfile(url2)
+
+
+[
+    {'filename':'a-root.yml',
+    'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+    },
+    {'filename':'b-root.yml',
+    'info':     [{Country:CN,TOWN:CN},{Country:CN,TOWN:CN}]
+    }
+]
+
+
+for root in alllist:
+    for v in root['info']:
+        for l in v:
+            if 'Country' not in l.keys():
+            nodedict['Country']=nodedict['Town']
+            contrylist.append(nodedict['Country'])
+            continue 
+
+    for filename,fileinfo in root.items():
+
+
+
