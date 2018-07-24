@@ -1,0 +1,4 @@
+verisign public dns  64.6.64.6
+google public dns 8.8.8.8
+IBM publibc dns 9.9.9.9
+cloudfare public dns 1.2.3.4
