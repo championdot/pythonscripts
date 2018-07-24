@@ -7,8 +7,9 @@ import requests
 from bs4 import BeautifulSoup
 import datetime 
 
+
 def GetHtmlTab(url):
-    
+
     html = requests.get(url)
     page = html.content.decode("utf-8")
     bsObj = BeautifulSoup(page, 'lxml')
@@ -19,16 +20,29 @@ def GetHtmlTab(url):
     yesterday = today - datetime.timedelta(days=1)
     yed = yesterday.strftime("%Y%m%d")
 
-    with open (yed,'aw+') as f:
-        f.write('all srs data set\n')
-        for m in srsnav:
-            f.write(str(m))
+    #trs = srsnav.find_all('tr')
+    ulist = []
+    trs = srsnav.find_all('tr')
+    for tr in trs:
+        ui = []
+        for td in tr.strip():
+            ui.append(td.string)
+        ulist.append(ui)
+    #print ('**********************************')
+    print ulist 
 
-        f.write('all dns data set\n')
-        for l in dnsnav:
-            if len(l) <>0 :
-                continue;
-            f.write(str(l))
+    #with open (yed,'aw+') as f:
+    #    f.write('all srs data set\n')
+    #    for m in srsnav:
+    #        f.write(str(m))
+
+    #    f.write('all dns data set\n')
+    #    for l in dnsnav:
+    #        if len(l) <>0 :
+    #            continue;
+    #        f.write(str(l))
+
+
 
 def GetRootfile(url):
     html = requests.get(url)
@@ -54,7 +68,11 @@ if __name__ == '__main__':
     #其中div为注册的表格数据，<p>为解析数据
     #输出文件可以月为单位输出到一个文件（注册和解析各一个文件）
     '''
-    #url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
-    url2 = 'https://www.internic.net/domain/root.zone'
-    #GetHtmlTab(url)
-    GetRootfile(url2)
+    url = 'https://www.verisign.com/en_US/channel-resources/domain-registry-products/zone-file/index.xhtml'
+    #url2 = 'https://www.internic.net/domain/root.zone'
+    GetHtmlTab(url)
+    #GetRootfile(url2)
+    '''
+    日期，解析量，com，net
+    '''
+

@@ -39,12 +39,15 @@ def ParYaml(localdir,filelist):
             filedict['filename']= file
             filedict['info']=x['Instances'] 
             #x['Instances'] is list
-        allX.append(filedict)   
+        allX.append(filedict) 
+    #print allX  
     return allX 
    
 
 def parX(allinfolist,X):
     '''
+    想做到如果想看某一个根的情况，如果不传rootlist，就代表是全部根的
+    X代表的是某个字段，比如根据国家Country,Type(Global 还是Local),
     [
         {
             'filename':'a-root.yml',
@@ -56,7 +59,7 @@ def parX(allinfolist,X):
         }
         ]
     '''
-    
+    alltotal = []
     for root in allinfolist:
         total = {}
         Xlist =[]
@@ -76,19 +79,35 @@ def parX(allinfolist,X):
         if X=='Sites':
             total['nodesitecount']=sum(Xlist)
         else:
+        #elif: X =='Country':
             total['Xlistcount']=count_frq
+            #total['locnt']
         total['loccnt'] = sum(cc)
         print total
+        alltotal.append(total)
+    return alltotal
 
-
-#def overall(allX):
+def overall(allX,filelist):
     '''
     所有yml文件整体结果进行分析
     ①：根镜像节点总数（会出现US USA，需要有一个国家代码表来转换）
     ②：每个国家town数，而不是节点数，有可能一个town有多个site
     ③：
     '''
-
+    d3 =[]
+    for filename in filelist:
+        for allinfo in allX:
+            if filename == allinfo['filename']:
+                d2 = allinfo['Xlistcount']
+                d3.append(d2)
+    d4 = {}
+    for i in d3:
+        for k,v in i.items():
+            if k in d4.keys():
+                d4[k] += v
+            else:
+                d4[k] = v
+    print d4
 def contryX():
     '''
     入口是一个国家简写，输出这个国家的节点数，包括Global和Local
@@ -109,12 +128,22 @@ if __name__ == '__main__':
     #正式执行
     allinfolist=ParYaml(localdir,filelist)
     #print allinfolist
-    parX(allinfolist,'Town')
+    #parX(allinfolist,'Town')
     print '#####'
-    parX(allinfolist,'Country')
-    print '#######'
-    parX(allinfolist,'Sites')
-    print '####'
-    parX(allinfolist,'Type')
-   
-    
+    alltotal=parX(allinfolist,'Country')
+    #print '#######'
+    #print alltotal
+    hx={}
+    for l in alltotal:
+        lx=l['Xlistcount']
+        hx.update(lx)
+        X,Y = Counter(lx),Counter(hx)
+        hx = dict(X+Y)
+    print hx
+    #parX(allinfolist,'Sites')
+    #print '######'
+    #parX(allinfolist,'State')
+    #parX(allinfolist,'Type')
+    #overall(allinfolist,filelist)
+    #parX(allinfolist,'IPv4')
+    #parX(allinfolist,'IPv6')  
